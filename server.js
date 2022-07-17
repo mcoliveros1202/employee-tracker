@@ -26,7 +26,7 @@ db.query(`SELECT * FROM department`, (err, rows) => {
     console.log(rows);
 });
 
-// GET a single candidate
+// GET a single department
 db.query(`SELECT * FROM department WHERE id = 1`, (err, row) => {
     if (err) {
         console.log(err);
