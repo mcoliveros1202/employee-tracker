@@ -28,3 +28,4 @@ VALUES
 ('Managers', '100000', 5),
 ('Assistant', '50000', 5),
 ('Intern', '25000', 5)
+
