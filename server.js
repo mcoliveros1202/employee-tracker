@@ -1,3 +1,4 @@
+const db = require('./db/connection');
 const mysql = require('mysql2');
 const express = require('express');
 const inputCheck = require('./utils/inputCheck');
@@ -10,17 +11,6 @@ const app = express();
 // express.js middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-// connect to database
-const db = mysql.createConnection(
-    {
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'tracker'
-    },
-    console.log('Connected to the tracker database')
-);
 
 // GET all departments
 app.get('/api/departments', (req, res) => {
@@ -64,28 +54,6 @@ app.get('/api/department/:id', (req, res) => {
     });
 })
 
-// Delete a department
-app.delete('/api/department/:id', (req, res) => {
-    const sql = `DELETE FROM department WHERE id = ?`;
-    const params = [req.params.id];
-
-    db.query(sql, params, (err, result) => {
-        if (err) {
-            res.statusMessage(400).json({ error: res.message });
-        } else if (!result.affectedRows) {
-            res.json({
-                message: 'Department not found'
-            });
-        } else {
-            res.json({
-                message: 'deleted',
-                changes: result.affectedRows,
-                id: req.params.id
-            });
-        }
-    });
-});
-
 // Create a department
 app.post('/api/department', ({ body }, res) => {
     const errors = inputCheck(
@@ -113,7 +81,29 @@ app.post('/api/department', ({ body }, res) => {
     });
 });
 
-// get all roles
+// Delete a department
+app.delete('/api/department/:id', (req, res) => {
+    const sql = `DELETE FROM department WHERE id = ?`;
+    const params = [req.params.id];
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.statusMessage(400).json({ error: res.message });
+        } else if (!result.affectedRows) {
+            res.json({
+                message: 'Department not found'
+            });
+        } else {
+            res.json({
+                message: 'deleted',
+                changes: result.affectedRows,
+                id: req.params.id
+            });
+        }
+    });
+});
+
+// Get all roles
 app.get('/api/roles', (req, res) => {
     const sql = `SELECT * FROM roles`;
     db.query(sql, (err, rows) => {
@@ -128,7 +118,7 @@ app.get('/api/roles', (req, res) => {
     })
 });
 
-// get specific roles
+// Get specific roles
 app.get('/api/role/:id', (req, res) => {
     const sql = `SELECT * FROM roles WHERE id = ?`;
     const params = [req.params.id];
@@ -144,7 +134,10 @@ app.get('/api/role/:id', (req, res) => {
     });
 });
 
-// delete a specific role
+// Create a role
+
+
+// Delete a specific role
 app.delete('/api/role/:id', (req, res) => {
     const sql = `DELETE FROM roles WHERE id = ?`;
     const params = [req.params.id];
@@ -155,6 +148,62 @@ app.delete('/api/role/:id', (req, res) => {
         } else if (!result.affectedRows) {
             res.json({
                 message: 'Role not found'
+            });
+        } else {
+            res.json({
+                message: 'deleted',
+                changes: result.affectedRows,
+                id: req.params.id
+            });
+        }
+    });
+});
+
+// Get all employees
+app.get('/api/employees', (req, res) => {
+    const sql = `SELECT * FROM employees`;
+    db.query(sql, (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    })
+});
+
+// Get specific employee
+app.get('/api/employee/:id', (req, res) => {
+    const sql = `SELECT * FROM employees WHERE id =?`;
+    const params = [req.params.id];
+    db.query(sql, params, (err, row) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: row
+        });
+    });
+});
+
+// Create an employee
+
+
+// Delete an employee
+app.delete('/api/employee/:id', (req, res) => {
+    const sql = `DELETE FROM employees WHERE id = ?`;
+    const params = [req.params.id];
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({ error: res.message });
+            // check if anything is deleted
+        } else if (!result.affectedRows) {
+            res.json({
+                message: 'Employee not found'
             });
         } else {
             res.json({
