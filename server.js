@@ -2,8 +2,6 @@ const express = require('express');
 const db = require('./db/connection');
 const apiRoutes = require('./routes/apiRoutes');
 
-
-
 // PORT designation
 const PORT = process.env.PORT || 3001;
 // app expression
