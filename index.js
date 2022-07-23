@@ -48,11 +48,7 @@ function displayStuff() {
 }
 
 function viewDepts() {
-  const sql = `SELECT roles.*, departments.department_name
-                 AS department_name
-                 FROM roles
-                 LEFT JOIN departments
-                 ON roles.department_id = departments.id`;
+  const sql = `SELECT * FROM departments`;
   db.query(sql, (err, data) => {
     if (err) {
       return (err);
@@ -113,7 +109,7 @@ function insertDept(answers) {
 
   db.query(sql, params, (err, data) => {
     if (err) {
-      console.log('Error!');
+      console.log(err);
       return (err);
     }
     console.log('=======================');
