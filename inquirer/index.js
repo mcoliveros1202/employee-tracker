@@ -16,8 +16,7 @@ function displayStuff() {
           "Add a department",
           "Add a role",
           "Add an employee",
-          "Update an employee",
-          "Update a manager"
+          "Update an employee"
         ],
       },
     ])
@@ -43,9 +42,6 @@ function displayStuff() {
           break;
         case "Update an employee":
           updateEmploy();
-          break;
-        case "Update a manager":
-          updateManager();
           break;
       }
     });
