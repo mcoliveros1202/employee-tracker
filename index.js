@@ -1,6 +1,6 @@
-const db = require('../db/connection');
+const db = require('./db/connection');
 const inquirer = require("inquirer");
-const { query } = require('../db/connection');
+const { query } = require('./db/connection');
 
 function displayStuff() {
   inquirer
