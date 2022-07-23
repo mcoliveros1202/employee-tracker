@@ -35,7 +35,20 @@ router.get('/employee/:id', (req, res) => {
 });
 
 // Create an employee
+router.post('/employee', ({ body }, res) => {
+    const errors = inputCheck(
+        body, 'first_name', 'last_name', 'role', 'manager'
+    );
+    if (errors) {
+        res.status(400).json({ error: erros })
+        return
+    }
+    res.json({
+        message: 'success',
+        data: body
+    });
 
+});
 
 // Delete an employee
 router.delete('/employee/:id', (req, res) => {
